@@ -1,0 +1,44 @@
+﻿@model IEnumerable<emarket.Models.Cart>
+
+ @foreach (emarket.Models.Cart item in ViewBag.Cart)
+ {
+<div style="border:1px solid #0026ff ;margin-bottom:4px">
+    <p style="margin-left:10px ;margin-top:5px ">
+        <img src="~/Uploads/@Html.Encode(item.Product.image)" style="width: 10% ;height: 10%" /> @item.Product.name - @item.Product.price
+
+        <button class="btn btn-sm">
+            @Html.ActionLink("Delete", "Index")
+        </button>
+
+    </p>
+    <p style="margin-left:10px">added to cart : @item.added_at.ToString()</p>
+</div>
+   }
+@*
+@if (Session["Cart"] != null)
+{
+    foreach (var item in (List<emarket.Models.Cart>)Session["Cart"])
+    {
+        <div style="border:1px solid #0026ff ;margin-bottom:4px">
+            <p style="margin-left:10px ;margin-top:5px ">
+                <img src="~/Uploads/@item.Product.image" style="width: 10% ;height: 10%" /> @item.Product.name - @item.Product.price
+
+                <button class="btn btn-sm">
+                    @Html.ActionLink("Delete", "Index")
+                </button>
+
+            </p>
+            <p style="margin-left:10px">added to cart : @item.added_at.ToString()</p>
+        </div>
+    }
+}
+else
+{
+    <h2 style="color:red">Cart is empty...</h2>
+    <div>
+        <button class="btn btn-sm">
+            @Html.ActionLink("Back To Home", "Index")
+        </button>
+    </div>
+}
+*@

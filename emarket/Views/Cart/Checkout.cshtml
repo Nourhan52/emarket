@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Checkout";
+}
+@if (TempData["Cart"] != null)
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in TempData["Cart"] as List<emarket.Models.Cart>)
+            {
+                <tr>
+                    <td>@item.product_id</td>
+
+
+                    <td>@item.added_at</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h2 style="color:red">Cart is empty...</h2>
+    <div>
+        <button class="btn btn-sm">
+            @Html.ActionLink("Back To Home", "Index")
+        </button>
+    </div>
+}
+

@@ -1,0 +1,151 @@
+﻿@model IEnumerable<emarket.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <head>
+
+
+        <style>
+
+            * {
+                box-sizing: border-box;
+            }
+            /* Float four columns side by side */
+            .column {
+                float: left;
+                width: 25%;
+                padding: 0 10px;
+                margin-bottom: 40px;
+            }
+            /* Remove extra left and right margins, due to padding */
+            .row {
+                margin: 30px -5px;
+            }
+                /* Clear floats after the columns */
+                .row:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+            /* Style the counter cards */
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                padding: 10px;
+                text-align: left;
+                background-color: #f1f1f1;
+            }
+
+            a {
+                color: #000;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="modal-title" style="color:crimson;text-align:center">Your Cart</h3>
+                        </div>
+                        <div class="modal-body">
+                            @foreach (emarket.Models.Cart item in ViewBag.Cart)
+                            {
+                                <div style="border:1px solid #0026ff ;margin-bottom:4px">
+                                    <p style="margin-left:10px ;margin-top:5px ">
+                                        <img src="~/Uploads/@Html.Encode(item.Product.image)" style="width: 10% ;height: 10%" /> @item.Product.name - @item.Product.price
+
+                                        <button class="btn btn-sm">
+                                            @Html.ActionLink("Delete", "DeleteProduct", "Cart", new { id = item.Product.id }, null)
+                                        </button>
+
+                                    </p>
+                                    <div>
+                                        @{ var dateCart = item.added_at.Value;
+                                            var sec = (DateTime.Now - dateCart).Seconds;
+                                            var mint = (DateTime.Now - dateCart).Minutes;
+                                            var hours = (DateTime.Now - dateCart).Hours;
+                                            var days = (DateTime.Now - dateCart).Days;
+                                        }
+                                        @if (days > 1)
+                                        {
+                                            <p style="margin-left:10px;color:darkblue"> Added : @days Days ago</p>
+                                        }
+                                        else if (hours > 1)
+                                        {
+                                            <p style="margin-left:10px;color:darkblue"> Added :  @hours Hours ago</p>
+                                        }
+                                        else if (mint > 1)
+                                        {
+                                            <p style="margin-left:10px;color:darkblue"> Added :  @mint Minutes ago</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="margin-left:10px;color:darkblue"> Added :@sec Seconds ago</p>
+                                        }
+
+
+
+
+                                    </div>
+
+                                </div>
+
+                            }
+                        <button type="button" class="btnbtn-default" data-dismiss="modal">Checkout</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btnbtn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:30px">
+            <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#myModal">View Cart</button>
+        </div>
+            <div class="row">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="column">
+                            <div class="card">
+
+                                <img src="~/Uploads/@Html.Encode(item.image)" style=" width: 245px;height: 220px;" />
+                                <h4>@item.name</h4>
+                                <h4>@item.price</h4>
+
+                                @{
+                                    String description = item.description.ToString();
+                                    if (description.Length > 10)
+                                    {
+                                        String des = "";
+                                        char[] descrip = description.ToCharArray();
+                                        for (int i = 0; i < 10; i++)
+                                        {
+
+                                            des += descrip[i];
+                                        }
+                                        des += ".....more";
+                                        <p>Description:@des</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@description</p>
+                                        }
+                                    }
+                                    <h3 style="color:aqua;font-family:'Arial Rounded MT';text-align:center"> <span class="btn btn-danger">@Html.ActionLink("Add to cart", "Addtocart", new { id = item.id })</span></h3>
+                                </div>
+                        </div>
+
+                    }
+                }
+
+            </div>
+    </body>
